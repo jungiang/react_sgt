@@ -21,18 +21,28 @@ class App extends React.Component{
             students: studentData
         })
     }
-    addStudent = (student)=>{
+    addStudent = student=>{
         student.id = id++;
         this.setState({
             students: [...this.state.students, student]
         })
+    }
+    deleteStudent = id=>{
+        const studentsCopy = this.state.students.slice();
+        const index = studentsCopy.findIndex(student=>(student.id === id));
+        if(index >= 0){
+            studentsCopy.splice(index, 1);
+            this.setState({
+                students: studentsCopy
+            })    
+        }
     }
     render(){
         return(
             <div>
                 <h1 className="center">React SGT</h1>
                 <div className="row">
-                    <StudentTable col="s12 m8" list={this.state.students}/>
+                    <StudentTable col="s12 m8" list={this.state.students} delete={this.deleteStudent}/>
                     <AddStudent col="s12 m4" add={this.addStudent}/>
                 </div>
             </div>
